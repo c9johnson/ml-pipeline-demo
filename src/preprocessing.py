@@ -19,12 +19,11 @@ def clean_data(df, numeric_columns, categorical_columns):
     """Clean a dataframe by handling missing values and encoding categoricals."""
     df = df.copy()
 
-    # Fill numeric missing values with median
+    # Bug: filling with 0 instead of median
     for col in numeric_columns:
         if col in df.columns:
-            df[col] = df[col].fillna(df[col].median())
+            df[col] = df[col].fillna(0)  # this was df[col].median()
 
-    # Fill categorical missing values with mode
     for col in categorical_columns:
         if col in df.columns:
             mode_val = df[col].mode()
@@ -32,6 +31,7 @@ def clean_data(df, numeric_columns, categorical_columns):
                 df[col] = df[col].fillna(mode_val[0])
 
     return df
+
 
 def encode_categoricals(df, columns):
     """One-hot encode categorical columns."""
